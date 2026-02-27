@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>Produkttexte Review</h2>
+
+<div class="card">
+  <form action="/upload" method="post" enctype="multipart/form-data">
+    <b>DOCX hochladen</b>
+    <input type="file" name="file" accept=".docx" required>
+    <button type="submit">Import</button>
+  </form>
+  <div class="muted">MVP: Multi-User über Header <code>X-User</code> (später Login/SSO).</div>
+</div>
+
+<div class="card">
+  <form method="get" action="/">
+    Status:
+    <select name="status">
+      <option value="pending" {% if status=="pending" %}selected{% endif %}>pending</option>
+      <option value="in_review" {% if status=="in_review" %}selected{% endif %}>in_review</option>
+      <option value="approved" {% if status=="approved" %}selected{% endif %}>approved</option>
+      <option value="rejected" {% if status=="rejected" %}selected{% endif %}>rejected</option>
+    </select>
+    Suche: <input name="q" value="{{q}}">
+    <button type="submit">Filter</button>
+    <span class="muted" style="margin-left:12px;">
+      <a href="/export.csv">Export CSV (approved)</a> |
+      <a href="/export.xlsx">Export XLSX (approved)</a>
+    </span>
+  </form>
+</div>
+
+<div class="card">
+  <b>Artikel</b>
+  <ul>
+    {% for p in products %}
+      <li>
+        <a href="/p/{{p.art_nr}}">{{p.art_nr}} – {{p.name}}</a>
+        <span class="muted">({{p.review_status}})</span>
+      </li>
+    {% endfor %}
+  </ul>
+</div>
+{% endblock %}

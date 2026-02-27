@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+{% block content %}
+<a href="/">← zurück</a>
+<h3>{{p.art_nr}} – {{p.name}}</h3>
+<div class="muted">Gesperrt von: {{p.locked_by}} | QA: {{p.qa_notes}}</div>
+
+<div class="grid">
+  <div class="card">
+    <b>Quelle</b>
+    <p>{{p.beschreibung_quelle}}</p>
+  </div>
+
+  <div class="card">
+    <form action="/p/{{p.art_nr}}/save" method="post">
+      <label><b>Prompt-Ergänzungen</b></label>
+      <textarea name="prompt_ergaenzungen">{{p.prompt_ergaenzungen}}</textarea>
+
+      <label><b>Generiert (read-only)</b></label>
+      <textarea readonly>{{p.beschreibung_generiert}}</textarea>
+
+      <label><b>Final (editierbar)</b></label>
+      <textarea name="beschreibung_final">{{p.beschreibung_final}}</textarea>
+
+      <button type="submit">Save</button>
+    </form>
+
+    <form action="/p/{{p.art_nr}}/generate" method="post" style="display:inline;">
+      <button type="submit">Generieren</button>
+    </form>
+    <form action="/p/{{p.art_nr}}/approve" method="post" style="display:inline;">
+      <button type="submit">Approve</button>
+    </form>
+    <form action="/p/{{p.art_nr}}/reject" method="post" style="display:inline;">
+      <button type="submit">Reject</button>
+    </form>
+  </div>
+</div>
+{% endblock %}
